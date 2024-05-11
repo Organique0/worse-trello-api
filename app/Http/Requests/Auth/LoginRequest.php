@@ -45,8 +45,7 @@ class LoginRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'username' => "Incorrect username",
-                'password' => "Incorrect password",
+                'error' => "Incorrect credentials",
             ]);
         }
 
