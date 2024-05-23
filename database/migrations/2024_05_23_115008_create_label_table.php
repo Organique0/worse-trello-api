@@ -13,8 +13,13 @@ return new class extends Migration
     {
         Schema::create('label', function (Blueprint $table) {
             $table->id('labelId');
+            $table->unsignedInteger('color_id');
+            $table->unsignedInteger('card_id');
             $table->string('title');
             $table->timestamps();
+
+            $table->foreign('color_id')->references('colorId')->on('color');
+            $table->foreign('card_id')->references('cardId')->on('card');
         });
     }
 

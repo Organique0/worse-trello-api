@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('comment', function (Blueprint $table) {
             $table->id('commentId');
+            $table->unsignedInteger('card_id');
             $table->string('content');
             $table->timestamps();
+
+            $table->foreign('card_id')->references('cardId')->on('card');
+            $table->foreign('user_id')->references('userId')->on('users');
         });
     }
 

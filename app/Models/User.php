@@ -51,7 +51,7 @@ class User extends Authenticatable
 
     public function social()
     {
-        return $this->hasMany(UserSocial::class, 'user_id', 'userIdd');
+        return $this->hasMany(UserSocial::class, 'user_id', 'id');
     }
 
     public function hasSocialLinked($service)
@@ -61,16 +61,16 @@ class User extends Authenticatable
 
     public function favoriteBoards()
     {
-        return $this->belongsToMany(Board::class, 'favorited', 'id', 'boardId');
+        return $this->belongsToMany(Board::class, 'favorited', 'boardId', 'id');
     }
 
     public function userComments()
     {
-        $this->hasMany(Comment::class, 'userId', 'commentId');
+        $this->hasMany(Comment::class, 'commentId', 'id');
     }
 
     public function userWorkspaces()
     {
-        $this->belongsToMany(Workspace::class, 'workspace_user', 'workspaceId', 'userId');
+        $this->belongsToMany(Workspace::class, 'workspace_user', 'workspaceId', 'id');
     }
 }

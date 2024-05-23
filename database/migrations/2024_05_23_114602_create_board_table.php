@@ -13,12 +13,15 @@ return new class extends Migration
     {
         Schema::create('board', function (Blueprint $table) {
             $table->id('boardId')->unique();
+            $table->unsignedInteger('workspace_id');
             $table->string('title');
             $table->string('imgThumb');
             $table->string('imgFull');
             $table->string('imgAuthor');
             $table->string('imgSite');
             $table->timestamps();
+
+            $table->foreign('workspace_id')->references('workspaceId')->on('workspace');
         });
     }
 

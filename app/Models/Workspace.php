@@ -17,6 +17,6 @@ class Workspace extends Model
 
     public function workspaceBoards()
     {
-        return $this->hasMany(Board::class, 'workspaceId', 'boardId');
+        return $this->hasMany(Board::class, 'boardId', 'workspaceId');
     }
 }

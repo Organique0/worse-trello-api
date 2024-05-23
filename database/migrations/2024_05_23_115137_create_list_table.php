@@ -13,10 +13,13 @@ return new class extends Migration
     {
         Schema::create('list', function (Blueprint $table) {
             $table->id('listId');
+            $table->unsignedInteger('board_id');
             $table->string('title');
-            $table->int('order');
+            $table->unsignedInteger('order');
             $table->string('description');
             $table->timestamps();
+
+            $table->foreign('board_id')->references('cardId')->on('card');
         });
     }
 
