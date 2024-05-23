@@ -51,11 +51,26 @@ class User extends Authenticatable
 
     public function social()
     {
-        return $this->hasMany(UserSocial::class, 'user_id', 'id');
+        return $this->hasMany(UserSocial::class, 'user_id', 'userIdd');
     }
 
     public function hasSocialLinked($service)
     {
         return (bool) $this->social->where('service', $service)->count();
+    }
+
+    public function favoriteBoards()
+    {
+        return $this->belongsToMany(Board::class, 'favorited', 'id', 'boardId');
+    }
+
+    public function userComments()
+    {
+        $this->hasMany(Comment::class, 'userId', 'commentId');
+    }
+
+    public function userWorkspaces()
+    {
+        $this->belongsToMany(Workspace::class, 'workspace_user', 'workspaceId', 'userId');
     }
 }
