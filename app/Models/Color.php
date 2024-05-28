@@ -9,7 +9,6 @@ class Color extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'colorId';
 
     protected $fillable = [
         'value',
@@ -18,6 +17,6 @@ class Color extends Model
 
     public function labelColor()
     {
-        return $this->hasMany(Label::class, 'lableId', 'colorId');
+        return $this->hasMany(Label::class, 'id', 'id');
     }
 }

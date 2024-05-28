@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('board', function (Blueprint $table) {
-            $table->id('boardId')->unique();
+            $table->id('id')->unique();
             $table->unsignedInteger('workspace_id');
             $table->string('title');
             $table->string('imgThumb');
@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('imgSite');
             $table->timestamps();
 
-            $table->foreign('workspace_id')->references('workspaceId')->on('workspace');
+            $table->foreign('workspace_id')->references('id')->on('workspace');
         });
     }
 

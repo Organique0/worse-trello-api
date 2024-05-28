@@ -8,6 +8,7 @@ class UserSocial extends Model
 {
     protected $table = 'user_social';
 
+
     protected $fillable = [
         'user_id',
         'social_id',

@@ -9,7 +9,6 @@ class Workspace extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'workspaceId';
 
     protected $fillable = [
         'title'
@@ -17,6 +16,11 @@ class Workspace extends Model
 
     public function workspaceBoards()
     {
-        return $this->hasMany(Board::class, 'boardId', 'workspaceId');
+        return $this->belongsTo(Board::class, 'w_id', 'id');
+    }
+
+    public function workspaceUser()
+    {
+        return $this->belongsToMany(WorkList::class, 'workspace_user', 'id', 'id');
     }
 }

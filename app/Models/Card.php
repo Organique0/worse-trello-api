@@ -9,7 +9,6 @@ class Card extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'cardId';
 
     protected $fillable = [
         'title',
@@ -19,11 +18,16 @@ class Card extends Model
 
     public function cardComment()
     {
-        $this->hasMany(Comment::class, 'commentId', 'cardId');
+        $this->hasMany(Comment::class, 'id', 'id');
     }
 
     public function cardLabel()
     {
-        $this->hasMany(Label::class, 'labelId', 'cardId');
+        $this->hasMany(Label::class, 'id', 'id');
+    }
+
+    public function cardList()
+    {
+        $this->belongsTo(WorkList::class, 'id', 'I_id');
     }
 }

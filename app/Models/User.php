@@ -61,16 +61,16 @@ class User extends Authenticatable
 
     public function favoriteBoards()
     {
-        return $this->belongsToMany(Board::class, 'favorited', 'boardId', 'id');
+        return $this->belongsToMany(Board::class, 'favorite_user_board', 'id', 'id');
     }
 
     public function userComments()
     {
-        $this->hasMany(Comment::class, 'commentId', 'id');
+        $this->hasMany(Comment::class, 'id', 'id');
     }
 
     public function userWorkspaces()
     {
-        $this->belongsToMany(Workspace::class, 'workspace_user', 'workspaceId', 'id');
+        $this->belongsToMany(Workspace::class, 'workspace_user', 'useriId', 'id');
     }
 }

@@ -9,7 +9,6 @@ class WorkList extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'workspaceId';
 
     protected $fillable = [
         'title',
@@ -19,6 +18,6 @@ class WorkList extends Model
 
     public function worklistCard()
     {
-        return $this->hasMany(Card::class, 'listId', 'cardId');
+        return $this->hasMany(Card::class, 'id', 'id');
     }
 }

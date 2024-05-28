@@ -9,7 +9,7 @@ class Board extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'boardId';
+
 
     protected $fillable = [
         'title',
@@ -21,11 +21,16 @@ class Board extends Model
 
     public function favoritedByUsers()
     {
-        return $this->belongsToMany(User::class, 'favorited', 'boardId', 'userId');
+        return $this->belongsToMany(User::class, 'favorite', 'id', 'userId');
     }
 
     public function boardLists()
     {
-        return $this->hasMany(WorkList::class, 'listId', 'boardId');
+        return $this->hasMany(WorkList::class, 'id', 'id');
+    }
+
+    public function boardWork()
+    {
+        return $this->belongsTo(Workspace::class, 'id', 'id');
     }
 }
