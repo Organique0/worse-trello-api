@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('board', function (Blueprint $table) {
-            $table->id('id')->unique();
+            $table->id('id');
             $table->unsignedInteger('workspace_id');
             $table->string('title');
             $table->string('imgThumb');

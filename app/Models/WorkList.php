@@ -9,6 +9,8 @@ class WorkList extends Model
 {
     use HasFactory;
 
+    protected $table = 'list';
+
 
     protected $fillable = [
         'title',

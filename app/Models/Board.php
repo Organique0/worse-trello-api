@@ -9,14 +9,16 @@ class Board extends Model
 {
     use HasFactory;
 
-
+    protected $table = 'board';
 
     protected $fillable = [
         'title',
         'imgThumb',
         'imgFull',
         'imgAuthor',
-        'imgSite'
+        'imgSite',
+        'visibility',
+        'w_id'
     ];
 
     public function favoritedByUsers()

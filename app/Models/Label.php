@@ -9,6 +9,8 @@ class Label extends Model
 {
     use HasFactory;
 
+    protected $table = 'label';
+
 
     protected $fillable = [
         'title'

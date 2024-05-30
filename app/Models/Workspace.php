@@ -9,6 +9,8 @@ class Workspace extends Model
 {
     use HasFactory;
 
+    protected $table = 'workspace';
+
 
     protected $fillable = [
         'title'
@@ -21,6 +23,6 @@ class Workspace extends Model
 
     public function workspaceUser()
     {
-        return $this->belongsToMany(WorkList::class, 'workspace_user', 'id', 'id');
+        return $this->belongsToMany(WorkList::class, 'workspace_user', 'userId', 'id');
     }
 }

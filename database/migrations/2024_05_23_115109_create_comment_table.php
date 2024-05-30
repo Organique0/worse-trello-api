@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('comment', function (Blueprint $table) {
-            $table->id('id')->unique();
+            $table->id('id');
             $table->unsignedInteger('card_id');
             $table->unsignedInteger('user_id');
             $table->string('content');

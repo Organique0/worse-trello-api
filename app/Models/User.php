@@ -66,11 +66,11 @@ class User extends Authenticatable
 
     public function userComments()
     {
-        $this->hasMany(Comment::class, 'id', 'id');
+        return $this->hasMany(Comment::class, 'id', 'id');
     }
 
     public function userWorkspaces()
     {
-        $this->belongsToMany(Workspace::class, 'workspace_user', 'useriId', 'id');
+        return $this->belongsToMany(Workspace::class, 'workspace_user', 'useriId', 'userId');
     }
 }

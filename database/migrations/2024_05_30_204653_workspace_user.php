@@ -6,15 +6,16 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    protected $table = 'workspace_user_board';
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('workspace', function (Blueprint $table) {
-            $table->id('id');
-            $table->string('title');
-            $table->timestamps();
+        Schema::create('workspace_user_board', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('userId');
+            $table->unsignedInteger('workspaceId');
         });
     }
 
@@ -23,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workspace');
+        //
     }
 };
