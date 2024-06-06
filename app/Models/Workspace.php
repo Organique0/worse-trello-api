@@ -13,7 +13,10 @@ class Workspace extends Model
 
 
     protected $fillable = [
-        'title'
+        'title',
+        'type',
+        'description',
+        'src'
     ];
 
     public function workspaceBoards()

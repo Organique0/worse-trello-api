@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('workspace', function (Blueprint $table) {
             $table->id('id');
             $table->string('title');
+            $table->string('type');
+            $table->string('description');
+            $table->string('src')->nullable();
             $table->timestamps();
         });
     }

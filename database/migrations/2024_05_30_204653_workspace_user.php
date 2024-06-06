@@ -6,16 +6,17 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    protected $table = 'workspace_user_board';
+    protected $table = 'workspace_user';
     /**
      * Run the migrations.
      */
     public function up(): void
     {
-        Schema::create('workspace_user_board', function (Blueprint $table) {
+        Schema::create('workspace_user', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('userId');
             $table->unsignedInteger('workspaceId');
+            $table->timestamps();
         });
     }
 

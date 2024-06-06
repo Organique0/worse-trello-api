@@ -9,6 +9,8 @@ class Workspace_user extends Model
 {
     use HasFactory;
 
+    protected $table = 'workspace_user';
+
     protected $fillable = [
         'userId',
         'workspaceId'

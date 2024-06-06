@@ -6,10 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Board;
 use App\Models\Card;
 use App\Models\Comment;
-use App\Models\favorite_user_board;
+use App\Models\Favorite_user_board;
 use App\Models\Label;
 use App\Models\Workspace;
-use App\Models\workspace_user;
+use App\Models\Workspace_user;
 
 class BoardController extends Controller
 {
@@ -41,11 +41,15 @@ class BoardController extends Controller
     {
         $workspace = new Workspace;
         $workspace->title = $request->title;
+        $workspace->description = $request->description;
+        $workspace->type = $request->type;
         $workspace->save();
 
-        $workspaceUser = new workspace_user;
+
+        $workspaceUser = new Workspace_user;
         $workspaceUser->userId = $request->user()->id;
-        $workspaceUser->workspaceId = $request->id;
+        $workspaceUser->workspaceId = $workspace->id;
+
         $workspaceUser->save();
 
 
@@ -64,6 +68,14 @@ class BoardController extends Controller
         return response()->json([
             'success' => true,
             'workspace' => $workspaceId
+        ]);
+    }
+
+    public function getWorkspaces() {
+        $workspaces = Workspace::all();
+
+        return response()->json([
+            'workspaces' => $workspaces
         ]);
     }
 
