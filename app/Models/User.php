@@ -4,6 +4,8 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -59,18 +61,18 @@ class User extends Authenticatable
         return (bool) $this->social->where('service', $service)->count();
     }
 
-    public function favoriteBoards()
+    public function favoriteBoards(): BelongsToMany
     {
         return $this->belongsToMany(Board::class, 'favorite_user_board', 'id', 'id');
     }
 
-    public function userComments()
+    public function userComments(): HasMany
     {
         return $this->hasMany(Comment::class, 'id', 'id');
     }
 
-    public function userWorkspaces()
+    public function userWorkspaces(): BelongsToMany
     {
-        return $this->belongsToMany(Workspace::class, 'workspace_user', 'useriId', 'userId');
+        return $this->belongsToMany(Workspace::class, 'workspace_user', 'userId', 'id');
     }
 }

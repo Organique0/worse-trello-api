@@ -13,26 +13,25 @@ class Board extends Model
 
     protected $fillable = [
         'title',
-        'imgThumb',
-        'imgFull',
-        'imgAuthor',
-        'imgSite',
         'visibility',
-        'w_id'
+        'workspace_id',
+        'prefs_background_url',
+        'prefs_background'
+
     ];
 
     public function favoritedByUsers()
     {
-        return $this->belongsToMany(User::class, 'favorite', 'id', 'userId');
+        return $this->belongsToMany(User::class, 'favorite', 'board_id', 'user_id');
     }
 
     public function boardLists()
     {
-        return $this->hasMany(WorkList::class, 'id', 'id');
+        return $this->hasMany(WorkList::class, 'board_id', 'id');
     }
 
     public function boardWork()
     {
-        return $this->belongsTo(Workspace::class, 'id', 'id');
+        return $this->belongsTo(Workspace::class, 'workspace_id', 'id');
     }
 }

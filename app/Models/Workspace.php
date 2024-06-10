@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Workspace extends Model
 {
@@ -16,16 +18,15 @@ class Workspace extends Model
         'title',
         'type',
         'description',
-        'src'
     ];
 
-    public function workspaceBoards()
+    public function workspaceBoards(): HasMany
     {
-        return $this->belongsTo(Board::class, 'w_id', 'id');
+        return $this->hasMany(Board::class, 'workspace_id', 'id');
     }
 
-    public function workspaceUser()
+    public function workspaceUser(): BelongsToMany
     {
-        return $this->belongsToMany(WorkList::class, 'workspace_user', 'userId', 'id');
+        return $this->belongsToMany(User::class, 'workspace_user', 'workspace_id', 'user_id');
     }
 }

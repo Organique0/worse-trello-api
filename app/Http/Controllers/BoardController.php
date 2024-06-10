@@ -8,6 +8,7 @@ use App\Models\Card;
 use App\Models\Comment;
 use App\Models\Favorite_user_board;
 use App\Models\Label;
+use App\Models\User;
 use App\Models\Workspace;
 use App\Models\Workspace_user;
 
@@ -37,6 +38,7 @@ class BoardController extends Controller
         ]);
     }
 
+    //done
     public function addWorkspace(Request $request)
     {
         $workspace = new Workspace;
@@ -50,20 +52,26 @@ class BoardController extends Controller
         $workspaceUser->userId = $request->user()->id;
         $workspaceUser->workspaceId = $workspace->id;
 
+
         $workspaceUser->save();
 
 
         return response()->json([
             'success' => true,
-            'workspace' => $workspace
+            'workspace' => $workspace,
+            'workspace_user' => $workspaceUser
         ]);
     }
 
+    //done
     public function removeWorkspace(Request $request)
     {
         $workspaceId = $request->input('workspace_id');
         $workspaceId = Workspace::findOrFail($workspaceId);
         $workspaceId->delete();
+
+        $workspaceUser = Workspace_user::where('workspaceId', $workspaceId->id)->first();
+        $workspaceUser->delete();
 
         return response()->json([
             'success' => true,
@@ -71,13 +79,16 @@ class BoardController extends Controller
         ]);
     }
 
-    public function getWorkspaces() {
-        $workspaces = Workspace::all();
 
-        return response()->json([
-            'workspaces' => $workspaces
-        ]);
+    public function getWorkspaces(Request $request)
+    {
+        $user = $request->user();
+        $workspaces = $user->userWorkspaces()->with('workspaceBoards')->get();
+
+        return response()->json($workspaces);
     }
+
+
 
     public function addBoard(Request $request)
     {

@@ -15,10 +15,9 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedInteger('workspace_id');
             $table->string('title');
-            $table->string('imgThumb');
-            $table->string('imgFull');
-            $table->string('imgAuthor');
-            $table->string('imgSite');
+            $table->string('visibility');
+            $table->string('prefs_background_url')->nullable();
+            $table->string('prefs_background')->nullable();
             $table->timestamps();
 
             $table->foreign('workspace_id')->references('id')->on('workspace');
