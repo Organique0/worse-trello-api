@@ -52,7 +52,6 @@ class BoardController extends Controller
         $workspaceUser->userId = $request->user()->id;
         $workspaceUser->workspaceId = $workspace->id;
 
-
         $workspaceUser->save();
 
 
@@ -63,15 +62,17 @@ class BoardController extends Controller
         ]);
     }
 
-    //done
+
     public function removeWorkspace(Request $request)
     {
         $workspaceId = $request->input('workspace_id');
-        $workspaceId = Workspace::findOrFail($workspaceId);
-        $workspaceId->delete();
+        $workspace = Workspace::findOrFail($workspaceId);
+        $workspace->delete();
 
-        $workspaceUser = Workspace_user::where('workspaceId', $workspaceId->id)->first();
-        $workspaceUser->delete();
+        $workspace->workspaceUser()->detach($workspaceId);
+
+        //$workspaceUser = Workspace_user::where('workspaceId', $workspaceId->id)->first();
+        //$workspaceUser->delete();
 
         return response()->json([
             'success' => true,
@@ -79,15 +80,28 @@ class BoardController extends Controller
         ]);
     }
 
-
+    //should work
     public function getWorkspaces(Request $request)
     {
         $user = $request->user();
         $workspaces = $user->userWorkspaces()->with('workspaceBoards')->get();
 
-        return response()->json($workspaces);
-    }
+        // Convert IDs to strings
+        $workspaces = $workspaces->map(function ($workspace) {
+        $workspace->id = (string) $workspace->id;
+        $workspace->workspaceBoards = $workspace->workspaceBoards->map(function ($board) {
+            $board->id = (string) $board->id;
+            return $board;
+        });
+        return $workspace;
+        });
 
+        $workspacesArray = $workspaces->toArray();
+        print_r($workspacesArray);
+
+        return response()->json($workspacesArray);
+
+    }
 
 
     public function addBoard(Request $request)

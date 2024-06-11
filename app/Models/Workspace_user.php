@@ -19,13 +19,13 @@ class Workspace_user extends Model
     ];
 
 
-    public function hasUser(): BelongsTo
+    public function hasUser(): BelongsToMany
     {
-        return $this->belongsTo(User::class, 'userId', 'id');
+        return $this->belongsToMany(User::class, 'userId', 'id');
     }
 
-    public function hasWorkspace(): BelongsTo
+    public function hasWorkspace(): BelongsToMany
     {
-        return $this->belongsTo(Workspace::class, 'workspaceId', 'id');
+        return $this->belongsToMany(Workspace::class, 'workspaceId', 'id');
     }
 }

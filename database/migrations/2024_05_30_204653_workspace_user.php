@@ -17,6 +17,9 @@ return new class extends Migration
             $table->unsignedInteger('userId');
             $table->unsignedInteger('workspaceId');
             $table->timestamps();
+
+            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('workspaceId')->references('id')->on('workspace');
         });
     }
 
