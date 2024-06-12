@@ -80,33 +80,49 @@ class BoardController extends Controller
         ]);
     }
 
-    //should work
-    public function getWorkspaces(Request $request)
-    {
-        $user = $request->user();
-        $workspaces = $user->userWorkspaces()->with('workspaceBoards')->get();
+    //works
+public function getWorkspaces(Request $request)
+{
+    $user = $request->user();
+    $workspaces = $user->userWorkspaces()->get();
 
-        // Convert IDs to strings
-        $workspaces = $workspaces->map(function ($workspace) {
-        $workspace->id = (string) $workspace->id;
-        $workspace->workspaceBoards = $workspace->workspaceBoards->map(function ($board) {
-            $board->id = (string) $board->id;
+    $workspacesArray = $workspaces->makeHidden('id')->map(function ($workspace) {
+        $workspace->id_str = (string) $workspace->id;
+        $workspace->pivot->makeHidden('userId');
+        $workspace->pivot->makeHidden('workspaceId');
+        $workspace->pivot->userId_str = (string) $workspace->pivot->userId;
+        $workspace->pivot->workspaceId_str = (string) $workspace->pivot->workspaceId;
+        $workspace->workspace_boards = $workspace->workspaceBoards->makeHidden('id')->map(function ($board) {
+            $board->makeHidden('id');
+            $board->id_str = (string) $board->id;
+            $board->workspace_id_str = (string) $board->workspace_id;
+            $board->makeHidden('workspace_id');
             return $board;
         });
+        unset($workspace->workspaceBoards);
         return $workspace;
-        });
+    })->toArray();
 
-        $workspacesArray = $workspaces->toArray();
-        print_r($workspacesArray);
+    return response()->json($workspacesArray);
+}
 
-        return response()->json($workspacesArray);
 
-    }
 
 
     public function addBoard(Request $request)
     {
-        $board = Board::create($request->all());
+        $board = new Board;
+        $board->title = $request->title;
+        $board->prefs_background = $request->prefs_background;
+        $board->prefs_background_url = $request->prefs_background_url;
+        $board->visibility = $request->visibility;
+        $board->workspace_id = (int) $request->workspace_id_str;
+        $board->save();
+
+        $board->makeHidden('id');
+        $board->makeHidden('workspace_id');
+        $board->workspace_id_str = (string) $board->workspace_id;
+        $board->id_str = (string) $board->id;
 
         return response()->json([
             'success' => true,
