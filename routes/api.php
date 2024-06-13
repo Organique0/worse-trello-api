@@ -10,11 +10,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
     });
 
     Route::post('/boards/favorite', [BoardController::class, 'addFavorite']);
-    Route::delete('/boards/favorite', [BoardController::class, 'removeFavorite']);
 
     Route::post('/workspaces/create', [BoardController::class, 'addWorkspace']);
     Route::delete('/workspaces/delete', [BoardController::class, 'removeWorkspace']);
     Route::get('/workspaces', [BoardController::class, 'getWorkspaces']);
+    Route::get('/workspaces/{wid}', [BoardController::class, 'getWorkspace']);
 
     Route::post('/boards/create', [BoardController::class, 'addBoard']);
     Route::delete('/boards/delete', [BoardController::class, 'removeBoard']);

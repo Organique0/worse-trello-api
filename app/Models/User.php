@@ -63,7 +63,7 @@ class User extends Authenticatable
 
     public function favoriteBoards(): BelongsToMany
     {
-        return $this->belongsToMany(Board::class, 'favorite_user_board', 'id', 'id');
+        return $this->belongsToMany(Board::class, 'favorites', 'user_id', 'id');
     }
 
     public function userComments(): HasMany

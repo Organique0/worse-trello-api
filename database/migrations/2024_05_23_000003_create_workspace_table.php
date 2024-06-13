@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('type');
             $table->string('description');
+            $table->string('visibility')->default('private');
             $table->timestamps();
         });
     }

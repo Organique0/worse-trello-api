@@ -18,6 +18,7 @@ class Workspace extends Model
         'title',
         'type',
         'description',
+        'visibility'
     ];
 
     public function workspaceBoards(): HasMany

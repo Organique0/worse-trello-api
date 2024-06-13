@@ -25,7 +25,7 @@ class Board extends Model
 
     public function favoritedByUsers(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'favorite', 'board_id', 'user_id');
+        return $this->belongsToMany(User::class, 'favorites', 'board_id', 'user_id')->withTimestamps();
     }
 
     public function boardLists(): HasMany

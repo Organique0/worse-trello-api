@@ -16,25 +16,29 @@ class BoardController extends Controller
 {
     public function addFavorite(Request $request)
     {
+        $boardId = $request->id_str;
+        $userId = $request->user()->id;
+        $existingFavorite = Favorite_user_board::where([
+            'board_id' => $boardId,
+            'user_id' => $userId
+        ])
+            ->first();
+
+        if ($existingFavorite) {
+            $existingFavorite->delete();
+            return response()->json([
+                'deletedExisting' => $existingFavorite,
+            ]);
+        }
+
         $favorite_user_board = new favorite_user_board;
-        $favorite_user_board->u_id = $request->user()->id;
-        $favorite_user_board->b_id = $request->boardId;
+        $favorite_user_board->user_id = $request->user()->id;
+        $favorite_user_board->board_id = $boardId;
 
         $favorite_user_board->save();
 
         return response()->json([
-            'success' => true,
-        ]);
-    }
-
-    public function removeFavorite(Request $request)
-    {
-        $boardId = $request->input('b_id');
-        $favorite_user_board = Favorite_user_board::findOrFail($boardId);
-        $favorite_user_board->delete();
-
-        return response()->json([
-            'success' => true,
+            'addedNewFavorite' => $favorite_user_board,
         ]);
     }
 
@@ -81,33 +85,31 @@ class BoardController extends Controller
     }
 
     //works
-public function getWorkspaces(Request $request)
-{
-    $user = $request->user();
-    $workspaces = $user->userWorkspaces()->get();
+    public function getWorkspaces(Request $request)
+    {
+        $user = $request->user();
+        $workspaces = $user->userWorkspaces()->get();
 
-    $workspacesArray = $workspaces->makeHidden('id')->map(function ($workspace) {
-        $workspace->id_str = (string) $workspace->id;
-        $workspace->pivot->makeHidden('userId');
-        $workspace->pivot->makeHidden('workspaceId');
-        $workspace->pivot->userId_str = (string) $workspace->pivot->userId;
-        $workspace->pivot->workspaceId_str = (string) $workspace->pivot->workspaceId;
-        $workspace->workspace_boards = $workspace->workspaceBoards->makeHidden('id')->map(function ($board) {
-            $board->makeHidden('id');
-            $board->id_str = (string) $board->id;
-            $board->workspace_id_str = (string) $board->workspace_id;
-            $board->makeHidden('workspace_id');
-            return $board;
-        });
-        unset($workspace->workspaceBoards);
-        return $workspace;
-    })->toArray();
+        $workspacesArray = $workspaces->makeHidden('id')->map(function ($workspace) use ($user) {
+            $workspace->id_str = (string) $workspace->id;
+            $workspace->pivot->makeHidden('userId');
+            $workspace->pivot->makeHidden('workspaceId');
+            $workspace->pivot->userId_str = (string) $workspace->pivot->userId;
+            $workspace->pivot->workspaceId_str = (string) $workspace->pivot->workspaceId;
+            $workspace->workspace_boards = $workspace->workspaceBoards->makeHidden('id')->map(function ($board) use ($user) {
+                $board->makeHidden('id');
+                $board->id_str = (string) $board->id;
+                $board->workspace_id_str = (string) $board->workspace_id;
+                $board->makeHidden('workspace_id');
+                $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
+                return $board;
+            });
+            unset($workspace->workspaceBoards);
+            return $workspace;
+        })->toArray();
 
-    return response()->json($workspacesArray);
-}
-
-
-
+        return response()->json($workspacesArray);
+    }
 
     public function addBoard(Request $request)
     {
@@ -140,6 +142,22 @@ public function getWorkspaces(Request $request)
             'success' => true,
             'board_id' => $boardId,
         ]);
+    }
+
+    public function getWorkspace(Request $request, $wid)
+    {
+        $user = $request->user();
+        $workspace = Workspace::findOrFail($wid);
+        $workspace->workspace_boards = $workspace->workspaceBoards->makeHidden('id')->map(function ($board) use ($user) {
+            $board->makeHidden('id');
+            $board->id_str = (string) $board->id;
+            $board->workspace_id_str = (string) $board->workspace_id;
+            $board->makeHidden('workspace_id');
+            $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
+            return $board;
+        });
+
+        return response()->json($workspace);
     }
 
     public function addComment(Request $request)
