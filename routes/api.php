@@ -15,6 +15,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/workspaces/delete', [BoardController::class, 'removeWorkspace']);
     Route::get('/workspaces', [BoardController::class, 'getWorkspaces']);
     Route::get('/workspaces/{wid}', [BoardController::class, 'getWorkspace']);
+    Route::put('/workspaces/{wid}', [BoardController::class, 'updateWorkspace']);
 
     Route::post('/boards/create', [BoardController::class, 'addBoard']);
     Route::delete('/boards/delete', [BoardController::class, 'removeBoard']);

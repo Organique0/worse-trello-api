@@ -148,6 +148,8 @@ class BoardController extends Controller
     {
         $user = $request->user();
         $workspace = Workspace::findOrFail($wid);
+        $workspace->makeHidden('id');
+        $workspace->id_str = (string) $workspace->id;
         $workspace->workspace_boards = $workspace->workspaceBoards->makeHidden('id')->map(function ($board) use ($user) {
             $board->makeHidden('id');
             $board->id_str = (string) $board->id;
@@ -156,6 +158,21 @@ class BoardController extends Controller
             $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
             return $board;
         });
+
+        return response()->json($workspace);
+    }
+
+    public function updateWorkspace(Request $request, $wid)
+    {
+        $workspace = Workspace::findOrFail($wid);
+        $workspace->title = $request->title;
+        if ($request->description != null) {
+            $workspace->description = $request->description;
+        }
+        $workspace->save();
+
+        $workspace->makeHidden('id');
+        $workspace->id_str = (string) $workspace->id;
 
         return response()->json($workspace);
     }
