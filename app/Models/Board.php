@@ -19,8 +19,8 @@ class Board extends Model
         'visibility',
         'workspace_id',
         'prefs_background_url',
-        'prefs_background'
-
+        'prefs_background',
+        'closed'
     ];
 
     public function favoritedByUsers(): BelongsToMany

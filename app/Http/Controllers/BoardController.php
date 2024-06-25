@@ -144,6 +144,19 @@ class BoardController extends Controller
         ]);
     }
 
+    public function closeBoard(Request $request)
+    {
+        $boardId = $request->input('board_id');
+        $board = Board::findOrFail($boardId);
+        $board->closed = true;
+        $board->save();
+
+        return response()->json([
+            'success' => true,
+            'board_id' => $boardId,
+        ]);
+    }
+
     public function getWorkspace(Request $request, $wid)
     {
         $user = $request->user();
