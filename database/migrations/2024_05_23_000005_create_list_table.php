@@ -16,7 +16,6 @@ return new class extends Migration
             $table->unsignedInteger('board_id');
             $table->string('title');
             $table->unsignedInteger('order');
-            $table->string('description');
             $table->timestamps();
 
             $table->foreign('board_id')->references('id')->on('board');

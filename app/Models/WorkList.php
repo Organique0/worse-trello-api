@@ -15,7 +15,6 @@ class WorkList extends Model
     protected $fillable = [
         'title',
         'order',
-        'description'
     ];
 
     public function worklistCard()
