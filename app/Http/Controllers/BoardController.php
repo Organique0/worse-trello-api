@@ -147,6 +147,7 @@ class BoardController extends Controller
     public function closeBoard(Request $request)
     {
         $boardId = $request->input('board_id');
+        echo ($boardId);
         $board = Board::findOrFail($boardId);
         $board->closed = true;
         $board->save();

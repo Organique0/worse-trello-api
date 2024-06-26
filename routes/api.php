@@ -9,7 +9,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
         return $request->user();
     });
 
-    Route::post('/boards/favorite', [BoardController::class, 'addFavorite']);
 
     Route::post('/workspaces/create', [BoardController::class, 'addWorkspace']);
     Route::delete('/workspaces/delete', [BoardController::class, 'removeWorkspace']);
@@ -19,6 +18,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::post('/boards/create', [BoardController::class, 'addBoard']);
     Route::delete('/boards/delete', [BoardController::class, 'removeBoard']);
+    Route::post('/boards/favorite', [BoardController::class, 'addFavorite']);
+    Route::put('/boards/close', [BoardController::class, 'closeBoard']);
 
     Route::post('/comments/create', [BoardController::class, 'addComment']);
     Route::delete('/comments/delete', [BoardController::class, 'removeComment']);
