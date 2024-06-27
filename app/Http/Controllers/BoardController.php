@@ -111,6 +111,34 @@ class BoardController extends Controller
         return response()->json($workspacesArray);
     }
 
+    public function getBoard(Request $request, $bid)
+    {
+        $user = $request->user();
+        $board = Board::findOrFail($bid);
+        $board->makeHidden('id');
+        $board->id_str = (string) $board->id;
+        $board->workspace_id_str = (string) $board->workspace_id;
+        $board->makeHidden('workspace_id');
+        $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
+        $board->cards = $board->cards->makeHidden('id')->map(function ($card) use ($user) {
+            $card->makeHidden('id');
+            $card->id_str = (string) $card->id;
+            $card->labels = $card->labels->makeHidden('id')->map(function ($label) {
+                $label->makeHidden('id');
+                $label->id_str = (string) $label->id;
+                return $label;
+            });
+            $card->members = $card->members->makeHidden('id')->map(function ($member) {
+                $member->makeHidden('id');
+                $member->id_str = (string) $member->id;
+                return $member;
+            });
+            return $card;
+        });
+        return $board;
+    }
+
+
     public function addBoard(Request $request)
     {
         $board = new Board;
@@ -126,10 +154,7 @@ class BoardController extends Controller
         $board->workspace_id_str = (string) $board->workspace_id;
         $board->id_str = (string) $board->id;
 
-        return response()->json([
-            'success' => true,
-            'board' => $board
-        ]);
+        return response()->json($board);
     }
 
     public function removeBoard(Request $request)
@@ -147,7 +172,6 @@ class BoardController extends Controller
     public function closeBoard(Request $request)
     {
         $boardId = $request->input('board_id');
-        echo ($boardId);
         $board = Board::findOrFail($boardId);
         $board->closed = true;
         $board->save();

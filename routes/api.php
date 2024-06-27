@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/boards/delete', [BoardController::class, 'removeBoard']);
     Route::post('/boards/favorite', [BoardController::class, 'addFavorite']);
     Route::put('/boards/close', [BoardController::class, 'closeBoard']);
+    Route::get('/boards/{bid}', [BoardController::class, 'getBoard']);
 
     Route::post('/comments/create', [BoardController::class, 'addComment']);
     Route::delete('/comments/delete', [BoardController::class, 'removeComment']);
