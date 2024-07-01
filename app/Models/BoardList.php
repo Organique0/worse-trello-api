@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WorkList extends Model
+class BoardList extends Model
 {
     use HasFactory;
 
@@ -15,10 +15,16 @@ class WorkList extends Model
     protected $fillable = [
         'title',
         'order',
+        'board_id'
     ];
 
-    public function worklistCard()
+    public function BoardListCard()
     {
-        return $this->hasMany(Card::class, 'id', 'id');
+        return $this->hasMany(Card::class, 'id', 'list_id');
+    }
+
+    public function board()
+    {
+        return $this->belongsTo(Board::class, 'board_id', 'id');
     }
 }

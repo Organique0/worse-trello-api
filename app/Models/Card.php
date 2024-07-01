@@ -16,6 +16,7 @@ class Card extends Model
         'title',
         'order',
         'description',
+        'list_id'
     ];
 
     public function cardComment()
@@ -30,6 +31,6 @@ class Card extends Model
 
     public function cardList()
     {
-        return $this->belongsTo(WorkList::class, 'id', 'I_id');
+        return $this->belongsTo(BoardList::class, 'list_id', 'id');
     }
 }

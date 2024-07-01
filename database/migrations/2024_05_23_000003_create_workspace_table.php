@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('id');
             $table->string('title');
             $table->string('type');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('visibility')->default('private');
             $table->timestamps();
         });

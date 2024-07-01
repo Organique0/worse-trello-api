@@ -19,6 +19,7 @@ class Board extends Model
         'visibility',
         'workspace_id',
         'prefs_background_url',
+        'prefs_background_url_full',
         'prefs_background',
         'closed'
     ];
@@ -30,7 +31,7 @@ class Board extends Model
 
     public function boardLists(): HasMany
     {
-        return $this->hasMany(WorkList::class, 'board_id', 'id');
+        return $this->hasMany(BoardList::class, 'board_id', 'id');
     }
 
     public function boardWork(): BelongsTo

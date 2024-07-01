@@ -22,6 +22,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::put('/boards/close', [BoardController::class, 'closeBoard']);
     Route::get('/boards/{bid}', [BoardController::class, 'getBoard']);
 
+    Route::post('/lists/create', [BoardController::class, 'addList']);
+    Route::delete('/lists/delete', [BoardController::class, 'removeList']);
+
     Route::post('/comments/create', [BoardController::class, 'addComment']);
     Route::delete('/comments/delete', [BoardController::class, 'removeComment']);
 

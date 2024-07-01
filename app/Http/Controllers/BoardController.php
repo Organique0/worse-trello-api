@@ -9,8 +9,10 @@ use App\Models\Comment;
 use App\Models\Favorite_user_board;
 use App\Models\Label;
 use App\Models\User;
+use App\Models\BoardList;
 use App\Models\Workspace;
 use App\Models\Workspace_user;
+use PhpParser\Node\Expr\List_;
 
 class BoardController extends Controller
 {
@@ -111,6 +113,22 @@ class BoardController extends Controller
         return response()->json($workspacesArray);
     }
 
+    public function addList(Request $request)
+    {
+        $list = BoardList::create($request->all());
+
+        return response()->json($list);
+    }
+
+    public function removeList(Request $request)
+    {
+        $listId = $request->input('list_id');
+        $list = BoardList::findOrFail($listId);
+        $list->delete();
+
+        return response()->json($list);
+    }
+
     public function getBoard(Request $request, $bid)
     {
         $user = $request->user();
@@ -120,7 +138,7 @@ class BoardController extends Controller
         $board->workspace_id_str = (string) $board->workspace_id;
         $board->makeHidden('workspace_id');
         $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
-        $board->cards = $board->cards->makeHidden('id')->map(function ($card) use ($user) {
+        /*         $board->cards = $board->cards->makeHidden('id')->map(function ($card) use ($user) {
             $card->makeHidden('id');
             $card->id_str = (string) $card->id;
             $card->labels = $card->labels->makeHidden('id')->map(function ($label) {
@@ -134,7 +152,20 @@ class BoardController extends Controller
                 return $member;
             });
             return $card;
+        }); */
+
+        $board->boardLists->makeHidden('id')->map(function ($list) {
+            $list->makeHidden('id');
+            $list->id_str = (string) $list->id;
+            $list->cards = $list->cards->makeHidden('id')->map(function ($card) {
+                $card->makeHidden('id');
+                $card->id_str = (string) $card->id;
+                return $card;
+            });
+            return $list;
         });
+
+
         return $board;
     }
 
@@ -145,6 +176,7 @@ class BoardController extends Controller
         $board->title = $request->title;
         $board->prefs_background = $request->prefs_background;
         $board->prefs_background_url = $request->prefs_background_url;
+        $board->prefs_background_url_full = $request->prefs_background_url_full;
         $board->visibility = $request->visibility;
         $board->workspace_id = (int) $request->workspace_id_str;
         $board->save();
@@ -154,7 +186,10 @@ class BoardController extends Controller
         $board->workspace_id_str = (string) $board->workspace_id;
         $board->id_str = (string) $board->id;
 
-        return response()->json($board);
+        return response()->json([
+            'board' => $board,
+            'success' => true,
+        ]);
     }
 
     public function removeBoard(Request $request)
@@ -214,6 +249,9 @@ class BoardController extends Controller
 
         return response()->json($workspace);
     }
+
+
+    //not implemented
 
     public function addComment(Request $request)
     {
