@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('visibility');
             $table->string('prefs_background_url')->nullable();
+            $table->string('prefs_background_url_full')->nullable();
             $table->string('prefs_background')->nullable();
             $table->boolean('closed')->default(false);
             $table->timestamps();
