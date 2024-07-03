@@ -1,46 +1,20 @@
-# Use the official PHP image as the base image
-FROM php:8.3.8-fpm
+FROM richarvey/nginx-php-fpm:3.1.6
 
+COPY . .
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
-    unzip
+# Image config
+ENV SKIP_COMPOSER 1
+ENV WEBROOT /var/www/html/public
+ENV PHP_ERRORS_STDERR 1
+ENV RUN_SCRIPTS 1
+ENV REAL_IP_HEADER 1
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Laravel config
+ENV APP_ENV production
+ENV APP_DEBUG false
+ENV LOG_CHANNEL stderr
 
-# Install PHP extensions
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
+# Allow composer to run as root
+ENV COMPOSER_ALLOW_SUPERUSER 1
 
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Set working directory
-WORKDIR /var/www
-
-# Copy the Laravel application code
-COPY . /var/www
-
-# Install PHP dependencies
-RUN composer install --no-interaction --no-scripts --no-progress --prefer-dist --verbose
-
-# Generate the application key
-RUN php artisan key:generate
-
-# Cache the configuration
-RUN php artisan config:cache
-
-# Cache the routes
-RUN php artisan route:cache
-
-# Expose port 8000 for PHP-FPM
-EXPOSE 8000
-
-# Start PHP-FPM
-CMD ["php-fpm"]
+CMD ["/start.sh"]
