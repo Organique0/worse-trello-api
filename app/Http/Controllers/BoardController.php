@@ -104,6 +104,16 @@ class BoardController extends Controller
                 $board->workspace_id_str = (string) $board->workspace_id;
                 $board->makeHidden('workspace_id');
                 $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
+                $board->boardLists->makeHidden('id')->map(function ($list) {
+                    $list->makeHidden('id');
+                    $list->id_str = (string) $list->id;
+                    $list->cards = $list->cards->makeHidden('id')->map(function ($card) {
+                        $card->makeHidden('id');
+                        $card->id_str = (string) $card->id;
+                        return $card;
+                    });
+                    return $list;
+                });
                 return $board;
             });
             unset($workspace->workspaceBoards);
