@@ -3,7 +3,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'worse-trello-api-restless-snow-6045'
+app = 'worse-trello-api'
 primary_region = 'ams'
 console_command = 'php /var/www/html/artisan tinker'
 
@@ -26,10 +26,10 @@ console_command = 'php /var/www/html/artisan tinker'
   QUEUE_CONNECTION="database"
   CACHE_STORE="database"
   DB_CONNECTION = "pgsql"
-  APP_URL="https://worse-trello-api-restless-snow-6045.fly.dev/"
+  APP_URL=""
   FRONTEND_URL="https://worse-trello-nuxt.vercel.app"
-  GOOGLE_REDIRECT_URI="https://worse-trello-api-restless-snow-6045.fly.dev/login/google/callback"
-  GITHUB_REDIRECT_URL="https://worse-trello-api-restless-snow-6045.fly.dev/login/github/callback"
+  GOOGLE_REDIRECT_URI="/login/google/callback"
+  GITHUB_REDIRECT_URL="/login/github/callback"
   BCRYPT_ROUNDS="12"
 
 [http_service]
