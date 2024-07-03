@@ -27,7 +27,7 @@ WORKDIR /var/www
 COPY . /var/www
 
 # Install PHP dependencies
-RUN composer install --no-interaction --no-scripts --no-progress --prefer-dist
+RUN composer install --no-interaction --no-scripts --no-progress --prefer-dist --verbose
 
 # Generate the application key
 RUN php artisan key:generate
