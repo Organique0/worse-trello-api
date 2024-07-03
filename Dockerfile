@@ -21,9 +21,7 @@ RUN composer install --optimize-autoloader --no-dev \
     && sed -i='' '/->withMiddleware(function (Middleware \$middleware) {/a\
         \$middleware->trustProxies(at: "*");\
     ' bootstrap/app.php; \
-    if [ -d .fly ]; then cp .fly/entrypoint.sh /entrypoint; chmod +x /entrypoint; fi;
-
-
+    if [ -d .fly ]; then cp .fly/entrypoint.sh /entrypoint; chmod +x /entrypoint; fi
 
 EXPOSE 8000
 CMD php artisan serve --host=0.0.0.0 --port=8000

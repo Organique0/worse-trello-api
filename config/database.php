@@ -111,7 +111,7 @@ return [
 
         'crdb' => [
             'driver' => 'crdb',
-            'url' => env('DATABASE_URL'),
+            'url' => env('DB_URL'),
             'host' => env('DB_HOST', '127.0.0.1'),
             'port' => env('DB_PORT', '26257'),
             'database' => env('DB_DATABASE', 'forge'),

@@ -1,9 +1,9 @@
-# fly.toml app configuration file generated for worse-trello-api on 2024-07-03T16:28:12+02:00
+# fly.toml app configuration file generated for worse-trello-api on 2024-07-03T20:19:07+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = 'worse-trello-api'
+app = 'worse-trello-api-restless-snow-6045'
 primary_region = 'ams'
 console_command = 'php /var/www/html/artisan tinker'
 
@@ -21,11 +21,15 @@ console_command = 'php /var/www/html/artisan tinker'
   SESSION_LIFETIME="120"
   SESSION_ENCRYPT="false"
   SESSION_PATH="/"
-  SESSION_DOMAIN="null"
   BROADCAST_CONNECTION="log"
   FILESYSTEM_DISK="local"
   QUEUE_CONNECTION="database"
   CACHE_STORE="database"
+  DB_CONNECTION = "pgsql"
+  APP_URL="https://worse-trello-api-restless-snow-6045.fly.dev/"
+  FRONTEND_URL="https://worse-trello-nuxt.vercel.app"
+  GOOGLE_REDIRECT_URI="https://worse-trello-api-restless-snow-6045.fly.dev/login/google/callback"
+  GITHUB_REDIRECT_URL="https://worse-trello-api-restless-snow-6045.fly.dev/login/github/callback"
   BCRYPT_ROUNDS="12"
 
 [http_service]
@@ -37,4 +41,6 @@ console_command = 'php /var/www/html/artisan tinker'
   processes = ['app']
 
 [[vm]]
-  size = 'shared-cpu-1x'
+  memory = '512mb'
+  cpu_kind = 'shared'
+  cpus = 1
