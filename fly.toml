@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for worse-trello-api on 2024-07-03T07:39:34+02:00
+# fly.toml app configuration file generated for worse-trello-api on 2024-07-03T16:28:12+02:00
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -17,8 +17,16 @@ console_command = 'php /var/www/html/artisan tinker'
   LOG_CHANNEL = 'stderr'
   LOG_LEVEL = 'info'
   LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
-  SESSION_DRIVER = 'cookie'
-  SESSION_SECURE_COOKIE = 'true'
+  SESSION_DRIVER="database"
+  SESSION_LIFETIME="120"
+  SESSION_ENCRYPT="false"
+  SESSION_PATH="/"
+  SESSION_DOMAIN="null"
+  BROADCAST_CONNECTION="log"
+  FILESYSTEM_DISK="local"
+  QUEUE_CONNECTION="database"
+  CACHE_STORE="database"
+  BCRYPT_ROUNDS="12"
 
 [http_service]
   internal_port = 8000

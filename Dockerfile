@@ -1,20 +1,29 @@
-FROM richarvey/nginx-php-fpm:3.1.6
+# syntax = docker/dockerfile:experimental
 
-COPY . .
+ARG PHP_VERSION=8.2
+ARG NODE_VERSION=18
+FROM fideloper/fly-laravel:${PHP_VERSION} as base
 
-# Image config
-ENV SKIP_COMPOSER 1
-ENV WEBROOT /var/www/html/public
-ENV PHP_ERRORS_STDERR 1
-ENV RUN_SCRIPTS 1
-ENV REAL_IP_HEADER 1
+# PHP_VERSION needs to be repeated here
+# See https://docs.docker.com/engine/reference/builder/#understand-how-arg-and-from-interact
+ARG PHP_VERSION
 
-# Laravel config
-ENV APP_ENV production
-ENV APP_DEBUG false
-ENV LOG_CHANNEL stderr
+LABEL fly_launch_runtime="laravel"
 
-# Allow composer to run as root
-ENV COMPOSER_ALLOW_SUPERUSER 1
+# copy application code, skipping files based on .dockerignore
+COPY . /var/www/html
 
-CMD ["/start.sh"]
+RUN composer install --optimize-autoloader --no-dev \
+    && mkdir -p storage/logs \
+    && php artisan optimize:clear \
+    && chown -R www-data:www-data /var/www/html \
+    && echo "MAILTO=\"\"\n* * * * * www-data /usr/bin/php /var/www/html/artisan schedule:run" > /etc/cron.d/laravel \
+    && sed -i='' '/->withMiddleware(function (Middleware \$middleware) {/a\
+        \$middleware->trustProxies(at: "*");\
+    ' bootstrap/app.php; \
+    if [ -d .fly ]; then cp .fly/entrypoint.sh /entrypoint; chmod +x /entrypoint; fi;
+
+
+
+EXPOSE 8000
+CMD php artisan serve --host=0.0.0.0 --port=8000
