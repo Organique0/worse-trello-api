@@ -1,5 +1,5 @@
 # Use the official PHP image as the base image
-FROM php:8.1-fpm
+FROM php:8.2-fpm-alpine
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
@@ -38,8 +38,8 @@ RUN php artisan config:cache
 # Cache the routes
 RUN php artisan route:cache
 
-# Expose port 9000 for PHP-FPM
-EXPOSE 9000
+# Expose port 8000 for PHP-FPM
+EXPOSE 8000
 
 # Start PHP-FPM
 CMD ["php-fpm"]
