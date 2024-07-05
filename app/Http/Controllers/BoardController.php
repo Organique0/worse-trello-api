@@ -119,7 +119,7 @@ class BoardController extends Controller
                 $dominantColor = $colorObject->getHex();
                 $board->dominant_color = "#" . $dominantColor;
                 $rbgArray = $colorObject->getArray();
-                $board->textColor = getTextColorBasedOnBg($rbgArray[0], $rbgArray[1], $rbgArray[2]);
+                $board->text_color = getTextColorBasedOnBg($rbgArray[0], $rbgArray[1], $rbgArray[2]);
                 return $board;
             });
             unset($workspace->workspaceBoards);
