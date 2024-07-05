@@ -187,6 +187,7 @@ class BoardController extends Controller
         $board->prefs_background = $request->prefs_background;
         $board->prefs_background_url = $request->prefs_background_url;
         $board->prefs_background_url_full = $request->prefs_background_url_full;
+        $board->prefs_background_url_regular = $request->prefs_background_url_regular;
         $board->visibility = $request->visibility;
         $board->workspace_id = (int) $request->workspace_id_str;
         $board->save();

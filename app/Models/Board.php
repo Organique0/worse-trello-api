@@ -20,6 +20,7 @@ class Board extends Model
         'workspace_id',
         'prefs_background_url',
         'prefs_background_url_full',
+        'prefs_background_url_regular',
         'prefs_background',
         'closed'
     ];
