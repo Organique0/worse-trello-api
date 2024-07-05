@@ -115,11 +115,11 @@ class BoardController extends Controller
                     });
                     return $list;
                 });
-                //$palette = Palette::fromUrl($board->prefs_background_url_regular);
-                //$extractor = new ColorExtractor($palette);
-                //$color = Color::fromIntToHex($extractor->extract()[0]);
-                $dominantColor = ColorThief::getColor($board->prefs_background_url_regular, 10, null, "hex");
-                $board->dominantColor = $dominantColor;
+                $colorObject = ColorThief::getColor($board->prefs_background_url_regular, 10, null, "obj");
+                $dominantColor = $colorObject->getHex();
+                $board->dominant_color = "#" . $dominantColor;
+                $rbgArray = $colorObject->getArray();
+                $board->textColor = getTextColorBasedOnBg($rbgArray[0], $rbgArray[1], $rbgArray[2]);
                 return $board;
             });
             unset($workspace->workspaceBoards);
@@ -154,7 +154,7 @@ class BoardController extends Controller
         $board->workspace_id_str = (string) $board->workspace_id;
         $board->makeHidden('workspace_id');
         $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
-        /*         $board->cards = $board->cards->makeHidden('id')->map(function ($card) use ($user) {
+        $board->cards = $board->cards->makeHidden('id')->map(function ($card) use ($user) {
             $card->makeHidden('id');
             $card->id_str = (string) $card->id;
             $card->labels = $card->labels->makeHidden('id')->map(function ($label) {
@@ -168,7 +168,7 @@ class BoardController extends Controller
                 return $member;
             });
             return $card;
-        }); */
+        });
 
         $board->boardLists->makeHidden('id')->map(function ($list) {
             $list->makeHidden('id');
