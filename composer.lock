@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f95c4a193bac2fd361a408b4d7473ac2",
+    "content-hash": "e79d911ff33787aefc1268d6b6c00b3d",
     "packages": [
         {
             "name": "brick/math",
@@ -1112,6 +1112,66 @@
                 }
             ],
             "time": "2023-12-03T19:50:20+00:00"
+        },
+        {
+            "name": "ksubileau/color-thief-php",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ksubileau/color-thief-php.git",
+                "reference": "a1378533433dae824c2e5b70359f8b6ae16b1deb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ksubileau/color-thief-php/zipball/a1378533433dae824c2e5b70359f8b6ae16b1deb",
+                "reference": "a1378533433dae824c2e5b70359f8b6ae16b1deb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "php": "^7.2|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.4",
+                "phpstan/phpstan": "^1.2.0",
+                "phpstan/phpstan-phpunit": "^1.0.0",
+                "phpunit/phpunit": "^8.5"
+            },
+            "suggest": {
+                "ext-gd": "to use the GD image adapter.",
+                "ext-gmagick": "to use the Gmagick image adapter.",
+                "ext-imagick": "to use the Imagick image adapter."
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ColorThief\\": "src/ColorThief"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Subileau",
+                    "homepage": "http://www.kevinsubileau.fr"
+                }
+            ],
+            "description": "Grabs the dominant color or a representative color palette from an image.",
+            "homepage": "http://www.kevinsubileau.fr/projets/color-thief-php",
+            "keywords": [
+                "color",
+                "dominant",
+                "palette",
+                "php",
+                "thief"
+            ],
+            "support": {
+                "issues": "https://github.com/ksubileau/color-thief-php/issues",
+                "source": "https://github.com/ksubileau/color-thief-php/tree/v2.0.1"
+            },
+            "time": "2022-11-12T10:09:40+00:00"
         },
         {
             "name": "laravel/framework",

@@ -13,6 +13,7 @@ use App\Models\BoardList;
 use App\Models\Workspace;
 use App\Models\Workspace_user;
 use PhpParser\Node\Expr\List_;
+use ColorThief\ColorThief;
 
 class BoardController extends Controller
 {
@@ -114,6 +115,11 @@ class BoardController extends Controller
                     });
                     return $list;
                 });
+                //$palette = Palette::fromUrl($board->prefs_background_url_regular);
+                //$extractor = new ColorExtractor($palette);
+                //$color = Color::fromIntToHex($extractor->extract()[0]);
+                $dominantColor = ColorThief::getColor($board->prefs_background_url_regular, 10, null, "hex");
+                $board->dominantColor = $dominantColor;
                 return $board;
             });
             unset($workspace->workspaceBoards);
