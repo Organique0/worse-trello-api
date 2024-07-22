@@ -30,7 +30,7 @@ class Board extends Model
         return $this->belongsToMany(User::class, 'favorites', 'board_id', 'user_id')->withTimestamps();
     }
 
-    public function boardLists(): HasMany
+    public function boardList(): HasMany
     {
         return $this->hasMany(BoardList::class, 'board_id', 'id');
     }

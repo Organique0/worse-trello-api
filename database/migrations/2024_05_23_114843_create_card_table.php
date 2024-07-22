@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedInteger('list_id');
             $table->string('title');
             $table->integer('order');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->timestamps();
 
             $table->foreign('list_id')->references('id')->on('list');

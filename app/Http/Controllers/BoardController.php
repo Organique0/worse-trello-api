@@ -105,12 +105,14 @@ class BoardController extends Controller
                 $board->workspace_id_str = (string) $board->workspace_id;
                 $board->makeHidden('workspace_id');
                 $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
-                $board->boardLists->makeHidden('id')->map(function ($list) {
-                    $list->makeHidden('id');
+                $board->boardList->makeHidden('id')->map(function ($list) {
+                    $list->makeHidden('board_id');
                     $list->id_str = (string) $list->id;
-                    $list->cards = $list->cards->makeHidden('id')->map(function ($card) {
+                    $list->BoardListCard->makeHidden('id')->map(function ($card) {
                         $card->makeHidden('id');
                         $card->id_str = (string) $card->id;
+                        $card->makeHidden('list_id');
+                        $card->list_id_str = (string) $card->list_id;
                         return $card;
                     });
                     return $list;
@@ -123,6 +125,7 @@ class BoardController extends Controller
                 return $board;
             });
             unset($workspace->workspaceBoards);
+
             return $workspace;
         })->toArray();
 
@@ -132,6 +135,9 @@ class BoardController extends Controller
     public function addList(Request $request)
     {
         $list = BoardList::create($request->all());
+        $list->makeHidden('id');
+        $list->id_str = (string) $list->id;
+        $list->BoardListCard = [];
 
         return response()->json($list);
     }
@@ -154,34 +160,21 @@ class BoardController extends Controller
         $board->workspace_id_str = (string) $board->workspace_id;
         $board->makeHidden('workspace_id');
         $board->is_favorited = $board->favoritedByUsers()->where('user_id', $user->id)->exists();
-        $board->cards = $board->cards->makeHidden('id')->map(function ($card) use ($user) {
-            $card->makeHidden('id');
-            $card->id_str = (string) $card->id;
-            $card->labels = $card->labels->makeHidden('id')->map(function ($label) {
-                $label->makeHidden('id');
-                $label->id_str = (string) $label->id;
-                return $label;
-            });
-            $card->members = $card->members->makeHidden('id')->map(function ($member) {
-                $member->makeHidden('id');
-                $member->id_str = (string) $member->id;
-                return $member;
-            });
-            return $card;
-        });
-
-        $board->boardLists->makeHidden('id')->map(function ($list) {
-            $list->makeHidden('id');
+        $board->boardList->makeHidden('id')->map(function ($list) {
+            $list->makeHidden('board_id');
             $list->id_str = (string) $list->id;
-            $list->cards = $list->cards->makeHidden('id')->map(function ($card) {
+            $list->cards = $list->BoardListCard->makeHidden('id')->map(function ($card) {
                 $card->makeHidden('id');
                 $card->id_str = (string) $card->id;
                 return $card;
             });
             return $list;
         });
-
-
+        $colorObject = ColorThief::getColor($board->prefs_background_url_regular, 10, null, "obj");
+        $dominantColor = $colorObject->getHex();
+        $board->dominant_color = "#" . $dominantColor;
+        $rbgArray = $colorObject->getArray();
+        $board->text_color = getTextColorBasedOnBg($rbgArray[0], $rbgArray[1], $rbgArray[2]);
         return $board;
     }
 
@@ -289,11 +282,12 @@ class BoardController extends Controller
     public function addCard(Request $request)
     {
         $card = Card::create($request->all());
+        $card->makeHidden('id');
+        $card->id_str = (string) $card->id;
+        $card->makeHidden('list_id');
+        $card->list_id_str = (string) $card->list_id;
 
-        return response()->json([
-            'success' => true,
-            'card' => $card,
-        ]);
+        return response()->json($card);
     }
 
     public function removeCard(Request $request)
