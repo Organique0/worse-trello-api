@@ -1,6 +1,6 @@
 # syntax = docker/dockerfile:experimental
 
-ARG PHP_VERSION=8.2
+ARG PHP_VERSION=8.3
 ARG NODE_VERSION=18
 FROM fideloper/fly-laravel:${PHP_VERSION} as base
 
