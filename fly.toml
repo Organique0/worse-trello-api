@@ -13,8 +13,9 @@ console_command = 'php /var/www/html/artisan tinker'
     PHP_VERSION = '8.3'
 
 [env]
-  APP_ENV = "production"
-  APP_DEBUG = "false"
+  APP_ENV = "local"
+  APP_NAME = "Worse Trello API"
+  APP_DEBUG = "true"
   APP_TIMEZONE = "UTC"
   APP_URL = "https://worse-trello-api.fly.dev"
   FRONTEND_URL = "https://worse-trello-nuxt.vercel.app"
@@ -42,6 +43,7 @@ console_command = 'php /var/www/html/artisan tinker'
   SESSION_DOMAIN = "null"
   SESSION_SAME_SITE = "none"
   SESSION_SECURE_COOKIE = "true"
+  SANCTUM_STATEFUL_DOMAINS = "worse-trello-api.fly.dev"
 
   GOOGLE_CLIENT_ID="932140321754-6iurefetolu29073k9vlfbgnvh61kr96.apps.googleusercontent.com"
   GOOGLE_REDIRECT_URI="https://worse-trello-api.fly.dev/login/google/callback"
