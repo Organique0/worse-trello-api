@@ -13,9 +13,9 @@ console_command = 'php /var/www/html/artisan tinker'
     PHP_VERSION = '8.3'
 
 [env]
-  APP_ENV = "local"
+  APP_ENV = "production"
   APP_NAME = "Worse Trello API"
-  APP_DEBUG = "true"
+  APP_DEBUG = "false"
   APP_TIMEZONE = "UTC"
   APP_URL = "https://worse-trello-api.fly.dev"
   FRONTEND_URL = "https://worse-trello-nuxt.vercel.app"
