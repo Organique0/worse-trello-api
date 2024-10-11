@@ -18,5 +18,7 @@ yarn-error.log
 /.idea
 /.vscode
 .fly
-fly.toml
 .github
+.vapor/
+.env.staging
+.env.fly

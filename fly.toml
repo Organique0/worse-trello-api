@@ -40,10 +40,10 @@ console_command = 'php /var/www/html/artisan tinker'
   SESSION_LIFETIME = "1200"
   SESSION_ENCRYPT = "false"
   SESSION_PATH = "/"
-  SESSION_DOMAIN = "null"
+  SESSION_DOMAIN = "worse-trello-api.fly.dev"
   SESSION_SAME_SITE = "none"
   SESSION_SECURE_COOKIE = "true"
-  SANCTUM_STATEFUL_DOMAINS = "worse-trello-api.fly.dev"
+  SANCTUM_STATEFUL_DOMAINS = "worse-trello-nuxt.vercel.app"
 
   GOOGLE_CLIENT_ID="932140321754-6iurefetolu29073k9vlfbgnvh61kr96.apps.googleusercontent.com"
   GOOGLE_REDIRECT_URI="https://worse-trello-api.fly.dev/login/google/callback"
